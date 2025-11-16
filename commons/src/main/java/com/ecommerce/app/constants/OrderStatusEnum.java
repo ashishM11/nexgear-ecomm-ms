@@ -1,6 +1,6 @@
 package com.ecommerce.app.constants;
 
-public enum OrderStatus {
+public enum OrderStatusEnum {
     PENDING,
     PAID,
     SHIPPED,

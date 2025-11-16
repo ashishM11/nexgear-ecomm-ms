@@ -1,16 +1,21 @@
 package com.ecommerce.app.controller;
 
+import com.ecommerce.app.dto.UserRequestDTO;
+import com.ecommerce.app.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@AllArgsConstructor
 public class UserController {
 
+    private final UserService userService;
 
     @GetMapping("/hello")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> testApi(){
         return ResponseEntity.ok("Welcome to NexGear - UserModule");
     }

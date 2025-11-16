@@ -1,6 +1,6 @@
 package com.ecommerce.app.constants;
 
-public enum AddressType {
+public enum AddressTypeEnum {
 
     HOME,
     OFFICE,

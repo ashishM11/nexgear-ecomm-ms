@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor @NoArgsConstructor
 @ToString(exclude = {"userRoleId","users"})
 @EqualsAndHashCode(exclude = {"userRoleId","users"})
+@Builder(toBuilder = true)
 public class UserRole {
 
     @Id

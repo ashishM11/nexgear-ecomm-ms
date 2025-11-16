@@ -9,11 +9,13 @@ import lombok.*;
 
 @Entity
 @Table(name = "tblUser")
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
-@ToString(exclude = {"password","userRoles"})
-@EqualsAndHashCode(exclude = {"password","userRoles"})
-public class User {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(exclude = {"userPassword", "userRoles"})
+@EqualsAndHashCode(exclude = {"userPassword", "userRoles"})
+public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +41,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userPasswordId", nullable = false, referencedColumnName = "passwordId")
-    private Password password;
+    private Password userPassword;
 
     @Column(name = "userAccountNonExpired")
     private boolean userAccountNonExpired;
@@ -53,15 +55,14 @@ public class User {
     @Column(name = "userAccountEnabled")
     private boolean userAccountEnabled;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(
             name = "tblUsersWithRoles",
-            joinColumns = @JoinColumn( name = "userId" , referencedColumnName = "userId"),
+            joinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name = "userRoleId", referencedColumnName = "userRoleId")
     )
     private Collection<UserRole> userRoles;
 
     @Column(name = "userCreationDT", nullable = false)
     private LocalDateTime userCreationDT;
-
 }

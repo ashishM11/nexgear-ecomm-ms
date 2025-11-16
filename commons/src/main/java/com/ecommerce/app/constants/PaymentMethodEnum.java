@@ -1,6 +1,6 @@
 package com.ecommerce.app.constants;
 
-public enum PaymentMethod {
+public enum PaymentMethodEnum {
     CARD,
     UPI,
     COD,

@@ -1,6 +1,6 @@
 package com.ecommerce.app.constants;
 
-public enum PaymentStatus {
+public enum PaymentStatusEnum {
     PENDING,
     SUCCESS,
     FAILED,

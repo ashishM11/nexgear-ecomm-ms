@@ -1,14 +1,14 @@
 package com.ecommerce.app.mapper;
 
+import com.ecommerce.app.model.User;
+import com.ecommerce.app.model.UserRole;
+import com.ecommerce.app.model.UserRolePrivilege;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import com.ecommerce.app.dto.UserRequestDTO;
-import com.ecommerce.app.model.User;
-import com.ecommerce.app.model.UserRole;
-import com.ecommerce.app.model.UserRolePrivilege;
 import com.ecommerce.app.response.UserResponseRecord;
 import com.ecommerce.app.response.UserRolePrivilegeResponseRecord;
 import com.ecommerce.app.response.UserRoleResponseRecord;
@@ -29,7 +29,7 @@ public interface UserMapper {
     @Mapping(target = "userAccountNonLocked", ignore = true)
     @Mapping(target = "userCredentialsNonExpired", ignore = true)
     @Mapping(target = "userCreationDT", ignore = true)
-    @Mapping(source = "rawPassword", target = "password.encryptedPassword")
+    @Mapping(source = "rawPassword", target = "userPassword.encryptedPassword")
     User fromUserRequestDTOToUserModel(UserRequestDTO requestDTO);
 
     @Mapping(source = "user.userRoles", target = "userRoles", qualifiedByName = "setUserRole")
