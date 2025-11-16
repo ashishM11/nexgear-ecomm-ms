@@ -1,5 +1,7 @@
 package com.ecommerce.app.service;
 
+import com.ecommerce.app.model.ApplicationUser;
+import com.ecommerce.app.model.User;
 import com.ecommerce.app.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,20 +17,17 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String emailOrMobile) {
-
-        // Check if input is email
+        User user;
         if (emailOrMobile.contains("@")) {
-            return userRepository
+            user = userRepository
                     .findByUserEmail(emailOrMobile)
-                    .map( u -> (UserDetails) u)
                     .orElseThrow(() -> new UsernameNotFoundException("Given UserEmail not found"));
+        } else {
+            user = userRepository
+                    .findByUserMobile(emailOrMobile)
+                    .orElseThrow(() -> new UsernameNotFoundException("Given UserMobile not found"));
         }
-
-        // Otherwise treat as mobile
-        return userRepository
-                .findByUserMobile(emailOrMobile)
-                .map( u -> (UserDetails) u)
-                .orElseThrow(() -> new UsernameNotFoundException("Given UserMobile not found"));
+        return new ApplicationUser(user);
     }
 
 }

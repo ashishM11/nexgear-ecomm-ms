@@ -2,10 +2,7 @@ package com.ecommerce.app.events;
 
 import com.ecommerce.app.constants.UserRoleEnum;
 import com.ecommerce.app.constants.UserRolePrivilegeEnum;
-import com.ecommerce.app.model.Password;
-import com.ecommerce.app.model.User;
-import com.ecommerce.app.model.UserRole;
-import com.ecommerce.app.model.UserRolePrivilege;
+import com.ecommerce.app.model.*;
 import com.ecommerce.app.repository.UserRepository;
 import com.ecommerce.app.repository.UserRolePrivilegeRepository;
 import com.ecommerce.app.repository.UserRoleRepository;

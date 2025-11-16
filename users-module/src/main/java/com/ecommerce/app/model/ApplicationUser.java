@@ -1,17 +1,19 @@
 package com.ecommerce.app.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
 
-public class MyApplicationUser extends User implements UserDetails {
+public class ApplicationUser implements UserDetails {
 
     private  final User user;
 
-    public MyApplicationUser(User user) {
+    public ApplicationUser(User user) {
+        super();
         this.user = user;
     }
 
@@ -22,7 +24,7 @@ public class MyApplicationUser extends User implements UserDetails {
         }
         return user.getUserRoles()
                 .stream()
-                .map(role -> (GrantedAuthority) role)
+                .map(role -> new SimpleGrantedAuthority(role.getUserRoleName()))
                 .toList();
     }
 
