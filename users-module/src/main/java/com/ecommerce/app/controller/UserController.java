@@ -15,7 +15,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/hello")
-//    @PreAuthorize("hasRole('')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> testApi(){
         return ResponseEntity.ok("Welcome to NexGear - UserModule");
     }

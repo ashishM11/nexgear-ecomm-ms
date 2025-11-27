@@ -1,6 +1,7 @@
 package com.ecommerce.app.controller;
 
 import com.ecommerce.app.dto.UserRequestDTO;
+import com.ecommerce.app.dto.UserSignInRequestDTO;
 import com.ecommerce.app.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> userSignUpRequest(@RequestBody UserRequestDTO requestDTO){
         return ResponseEntity.ok(userService.createNewUser(requestDTO));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> userSignInRequest(@RequestBody UserSignInRequestDTO requestDTO){
+        return ResponseEntity.ok(userService.authenticateUser(requestDTO));
     }
 
 }

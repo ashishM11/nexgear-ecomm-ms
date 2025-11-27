@@ -2,12 +2,16 @@ package com.ecommerce.app.service;
 
 import com.ecommerce.app.constants.UserRoleEnum;
 import com.ecommerce.app.dto.UserRequestDTO;
+import com.ecommerce.app.dto.UserSignInRequestDTO;
 import com.ecommerce.app.mapper.UserMapper;
 import com.ecommerce.app.model.*;
 import com.ecommerce.app.repository.UserRepository;
 import com.ecommerce.app.repository.UserRoleRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +29,10 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtService jwtService;
 
     public void updateProfile() {
 
@@ -72,6 +80,7 @@ public class UserService {
                 user.setUserAccountEnabled(true);
                 user.setUserAccountNonLocked(true);
                 user.setUserAccountNonExpired(true);
+                user.setUserCredentialsNonExpired(true);
                 user.setUserCreationDT(currentTs);
                 user.setUserPassword(getPassword(requestDTO.getRawPassword(),currentTs));
                 User userOp =  userRepository.save(user);
@@ -95,4 +104,14 @@ public class UserService {
         return byUserRoleName.orElse(null);
     }
 
+    public String authenticateUser(UserSignInRequestDTO requestDTO) {
+        final String userName = requestDTO.getUserEmailOrMobile();
+        final String password = requestDTO.getUserPassword();
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName,password));
+        if (authentication.isAuthenticated()) {
+            ApplicationUser user = (ApplicationUser) authentication.getPrincipal();
+            return jwtService.generateJwtToken(user);
+        }
+        return "Username Or Password is Incorrect";
+    }
 }
