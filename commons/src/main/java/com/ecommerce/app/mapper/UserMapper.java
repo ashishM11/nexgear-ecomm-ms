@@ -1,5 +1,6 @@
 package com.ecommerce.app.mapper;
 
+import com.ecommerce.app.kafka.model.UserCreationEvent;
 import com.ecommerce.app.model.User;
 import com.ecommerce.app.model.UserRole;
 import com.ecommerce.app.model.UserRolePrivilege;
@@ -50,5 +51,7 @@ public interface UserMapper {
     }
 
     Set<UserResponseRecord> fromUserModelsToUserResponseRecords(Set<User> users);
+
+    UserCreationEvent fromUserModelToKafkaUser(User user);
 
 }

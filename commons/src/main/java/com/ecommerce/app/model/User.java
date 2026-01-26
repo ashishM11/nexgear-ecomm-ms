@@ -55,7 +55,7 @@ public class User  {
     @Column(name = "userAccountEnabled")
     private boolean userAccountEnabled;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "tblUsersWithRoles",
             joinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId"),

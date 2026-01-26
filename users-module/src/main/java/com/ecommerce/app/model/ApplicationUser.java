@@ -1,5 +1,6 @@
 package com.ecommerce.app.model;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 public class ApplicationUser implements UserDetails {
 
     private  final User user;
@@ -57,4 +59,5 @@ public class ApplicationUser implements UserDetails {
     public boolean isEnabled() {
         return user.isUserAccountEnabled();
     }
+
 }

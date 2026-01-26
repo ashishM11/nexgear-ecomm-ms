@@ -3,6 +3,7 @@ package com.ecommerce.app.service;
 import com.ecommerce.app.constants.UserRoleEnum;
 import com.ecommerce.app.dto.UserRequestDTO;
 import com.ecommerce.app.dto.UserSignInRequestDTO;
+import com.ecommerce.app.kafka.model.UserCreationEvent;
 import com.ecommerce.app.mapper.UserMapper;
 import com.ecommerce.app.model.*;
 import com.ecommerce.app.repository.UserRepository;
@@ -33,6 +34,8 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;
+
+    private final UserProducerService userProducerService;
 
     public void updateProfile() {
 
@@ -83,8 +86,13 @@ public class UserService {
                 user.setUserCredentialsNonExpired(true);
                 user.setUserCreationDT(currentTs);
                 user.setUserPassword(getPassword(requestDTO.getRawPassword(),currentTs));
-                User userOp =  userRepository.save(user);
-                return Objects.nonNull(userOp.getUserId());
+                try{
+                    User userOp =  userRepository.save(user);
+                    UserCreationEvent kafkaUserCreationEvent = UserMapper.INSTANCE.fromUserModelToKafkaUser(userOp);
+                    return userProducerService.sendUser(kafkaUserCreationEvent);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
            return false;
         }else{
@@ -114,4 +122,21 @@ public class UserService {
         }
         return "Username Or Password is Incorrect";
     }
+
+//    public ResponseEntity<?> findUserBy(Long userId, String userEmail, String userMobile) {
+//        if(userId != null ){
+//            final Optional<UserCreationEvent> byUserId = userRepository.findById(userId);
+//            return
+//        }else if(userEmail != null){
+//            if(!userEmail.contains("@") && !userEmail.contains(".")){
+//                return new ResponseEntity<>("UserCreationEvent Email is incorrect.",HttpStatus.BAD_REQUEST);
+//            }
+//            final Optional<UserCreationEvent> byUserEmail = userRepository.findByUserEmail(userEmail);
+//            final UserCreationEvent user = byUserEmail.orElseThrow(() -> new UsernameNotFoundException("UserCreationEvent for given Mail Id is not found"));
+//            return new Res;
+//        }else{
+//
+//        }
+//
+//    }
 }

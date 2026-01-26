@@ -1,13 +1,6 @@
 spring:
-  kafka:
-    bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.LongSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.add.type.headers: false
   application:
-    name: users-module
+    name: customer-module
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -15,7 +8,7 @@ spring:
     url: jdbc:mysql://${SPRING_DATASOURCE_HOSTNAME}:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DBNAME}
     hikari:
       maximum-pool-size: 5
-      pool-name: nexgear-users-cp
+      pool-name: nexgear-customer-cp
       connection-timeout: 3000
       max-lifetime: 300000 #  Sets the maximum lifetime of a connection in the pool. An in-use connection will never retire. HikariCP removes it only when it is closed. The minimum value is 30000 ms (30 seconds). The default value is 1800000 ms (30 minutes)
       idle-timeout: 10000 # Sets the maximum amount of time that a connection can to sit idle in the pool. This setting only applies when minimumIdle is less than maximum-pool-size. The minimum value is 10000ms (10 seconds). The default value is 600000 (10 minutes).
@@ -32,9 +25,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  kafka:
+    bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: user-creation-cg
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: com.ecommerce.app.kafka.model.UserCreationEvent
 
 server:
-  port: 8444
+  port: 8443
   ssl:
     enabled: true
     key-store: ${SSL_KEYSTORE_PATH}
