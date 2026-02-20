@@ -3,6 +3,7 @@ package com.ecommerce.app.service;
 import com.ecommerce.app.repository.CustomerRepository;
 import com.ecommerce.app.kafka.model.UserCreationEvent;
 import com.ecommerce.app.model.Customer;
+import com.ecommerce.app.response.CustomerResponseRecord;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -38,4 +39,9 @@ public class CustomerService {
         }
     }
 
+    public CustomerResponseRecord getCustomerDetailById(Long custId) {
+
+
+
+    }
 }

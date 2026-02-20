@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: nexgear
+  name: nexgear-users-module
+  desc: User Authentication and Authorization Service
+  labels:
+    app: users-module
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: users-module
+  template:
+    metadata:
+      labels:
+        app: users-module
+    spec:
+      containers:
+        - name: nexgear-users-module
+          image: nexgear/users-module:latest
+          ports:
+            - containerPort: 8091

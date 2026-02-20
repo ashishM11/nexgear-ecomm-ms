@@ -5,5 +5,4 @@ public enum AddressTypeEnum {
     HOME,
     OFFICE,
     OTHERS
-
 }

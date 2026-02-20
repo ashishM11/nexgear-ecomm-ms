@@ -22,8 +22,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> userSignUpRequest(@Valid @RequestBody UserRequestDTO userRequestDTO){
         return userService.createNewUser(userRequestDTO)
-                ?  ResponseEntity.status(HttpStatus.CREATED).build()
-                : ResponseEntity.status(HttpStatus.CONFLICT).build();
+                ?  new ResponseEntity<>("Customer Created Successfully.",HttpStatus.CREATED)
+                : new ResponseEntity<>("Unable to created a customer.",HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @PostMapping("/login")

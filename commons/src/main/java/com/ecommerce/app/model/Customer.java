@@ -1,6 +1,7 @@
 package com.ecommerce.app.model;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,8 +13,8 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@ToString(exclude = {"customerAddress"})
-//@EqualsAndHashCode(exclude = {"customerAddress"})
+@ToString(exclude = {"customerAddress"})
+@EqualsAndHashCode(exclude = {"customerAddress"})
 public class Customer {
 
     @Id
@@ -23,8 +24,8 @@ public class Customer {
     @Column(name = "userId", nullable = false, unique = true)
     private Long userId;
 
-//    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<CustomerAddress> customerAddress;
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CustomerAddress> customerAddress;
 
     @Column(name = "custCreationDT")
     private LocalDateTime custCreationDT;

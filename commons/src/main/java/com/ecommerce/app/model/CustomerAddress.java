@@ -13,7 +13,7 @@ public class CustomerAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long custAddressId;
+    private Long customerAddressId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "custId", nullable = false)
@@ -35,6 +35,8 @@ public class CustomerAddress {
     private String postalCode;
 
     @Column(nullable = false, columnDefinition = "varchar(20) default 'HOME'")
-    private String addressType; 
+    private String addressType;
 
+    @Column(nullable = false)
+    private boolean isDefault;
 }
